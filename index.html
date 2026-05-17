@@ -88,14 +88,25 @@
     }
 
     function speakText() {
-      if (!lastTranslatedText) return;
+  if (!lastTranslatedText) return;
 
-      let speech = new SpeechSynthesisUtterance();
-      speech.text = lastTranslatedText;
-      speech.lang = "en-US"; // يمكن تغييره لاحقاً حسب اللغة
+  let speech = new SpeechSynthesisUtterance(lastTranslatedText);
 
-      window.speechSynthesis.speak(speech);
+  // اختيار صوت مناسب من الجهاز
+  let voices = window.speechSynthesis.getVoices();
+
+  if (voices.length > 0) {
+    speech.voice = voices[0]; // أول صوت متاح
+  }
+
+  speech.lang = "en-US";
+  speech.rate = 1;
+  speech.pitch = 1;
+
+  window.speechSynthesis.cancel(); // إيقاف أي صوت سابق
+  window.speechSynthesis.speak(speech);
     }
-  </script>
 
-  
+    window.speechSynthesis.onvoiceschanged = () => {
+  window.speechSynthesis.getVoices();
+};
