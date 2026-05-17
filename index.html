@@ -1,9 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>TranslateX</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input {
+      width: 300px;
+      padding: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: green;
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello Translate App</h1>
+
+  <h1>Smart Translator</h1>
+
+  <input id="text" placeholder="Type text here">
+  <br>
+  <button onclick="translateText()">Translate</button>
+
+  <p id="result"></p>
+
+  <script>
+    async function translateText() {
+      let text = document.getElementById("text").value;
+
+      if (!text) {
+        document.getElementById("result").innerText = "Please type something";
+        return;
+      }
+
+      let url = "https://api.mymemory.translated.net/get?q=" + text + "&langpair=en|fr";
+
+      let response = await fetch(url);
+      let data = await response.json();
+
+      document.getElementById("result").innerText =
+        data.responseData.translatedText;
+    }
+  </script>
+
 </body>
 </html>
