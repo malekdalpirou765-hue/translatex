@@ -50,7 +50,10 @@
     <option value="fr">French</option>
     <option value="es">Spanish</option>
     <option value="de">German</option>
-  </select>
+   <option. value="ar">Japanese</option>
+    <option. value="ar">Chinese </option>
+   </select>
+  
 
   
 
@@ -95,30 +98,4 @@
     }
   </script>
 
-  </body>
-</html>
-
-
-function speakText() {
-  if (!lastTranslatedText) return;
-
-  let speech = new SpeechSynthesisUtterance(lastTranslatedText);
-
-  // اختيار صوت مناسب من الجهاز
-  let voices = window.speechSynthesis.getVoices();
-
-  if (voices.length > 0) {
-    speech.voice = voices[0]; // أول صوت متاح
-  }
-
-  speech.lang = "en-US";
-  speech.rate = 1;
-  speech.pitch = 1;
-
-  window.speechSynthesis.cancel(); // إيقاف أي صوت سابق
-  window.speechSynthesis.speak(speech);
-}
-window.speechSynthesis.onvoiceschanged = () => {
-  window.speechSynthesis.getVoices();
-};
-
+  
