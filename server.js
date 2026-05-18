@@ -6,49 +6,122 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🤖 AI Translate
-app.post("/translate", async (req, res) => {
-  try {
+// 🌍 Home Page (UI كاملة)
+app.get("/", (req, res) => {
+  res.send(`
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>TranslateX AI</title>
 
-    const { text, lang } = req.body;
+<style>
+body{
+  margin:0;
+  font-family: Arial;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(120deg,#4facfe,#00f2fe);
+}
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+.box{
+  width:420px;
+  background:white;
+  padding:20px;
+  border-radius:15px;
+}
+
+textarea,select,button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+}
+
+button{
+  background:#4facfe;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+#result{
+  margin-top:10px;
+  font-size:18px;
+  color:green;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+<h2>🌍 TranslateX AI</h2>
+
+<textarea id="text" placeholder="Type text..."></textarea>
+
+<select id="lang">
+  <option>English</option>
+  <option>Arabic</option>
+  <option>French</option>
+  <option>Spanish</option>
+  <option>German</option>
+</select>
+
+<button onclick="translateText()">Translate</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+
+async function translateText(){
+
+  let text = document.getElementById("text").value;
+  let lang = document.getElementById("lang").value;
+
+  document.getElementById("result").innerText = "Loading...";
+
+  try{
+
+    let res = await fetch("/translate", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + process.env.OPENAI_API_KEY
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "system",
-            content: "You are a professional translator."
-          },
-          {
-            role: "user",
-            content: `Translate to ${lang}: ${text}`
-          }
-        ]
-      })
+      body: JSON.stringify({ text, lang })
     });
 
-    const data = await response.json();
+    let data = await res.json();
 
-    res.json({
-      result: data.choices?.[0]?.message?.content || "No response"
-    });
+    document.getElementById("result").innerText =
+      data.result;
 
-  } catch (err) {
-    res.status(500).json({ error: "AI error" });
+  }catch(e){
+    document.getElementById("result").innerText = "Error";
   }
+}
+
+</script>
+
+</body>
+</html>
+  `);
 });
 
-// 🟢 home
-app.get("/", (req, res) => {
-  res.send("TranslateX AI is running 🚀");
+// 🤖 Translate API (مؤقت بدون AI لتجنب الأخطاء)
+app.post("/translate", (req, res) => {
+  const { text, lang } = req.body;
+
+  res.json({
+    result: `(${lang}) ${text}`
+  });
 });
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log("Server running"));
+app.listen(PORT, () => {
+  console.log("Server running");
+});
