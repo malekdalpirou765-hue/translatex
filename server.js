@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🌍 AI Translate endpoint
+// 🤖 AI Translate
 app.post("/translate", async (req, res) => {
   try {
 
@@ -27,7 +27,7 @@ app.post("/translate", async (req, res) => {
           },
           {
             role: "user",
-            content: `Translate this text to ${lang}: ${text}`
+            content: `Translate to ${lang}: ${text}`
           }
         ]
       })
@@ -44,13 +44,10 @@ app.post("/translate", async (req, res) => {
   }
 });
 
-// 🟢 home page
+// 🟢 Home
 app.get("/", (req, res) => {
   res.send("TranslateX AI is running 🚀");
 });
 
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log("Server running");
-});
+app.listen(PORT, () => console.log("Server running"));
