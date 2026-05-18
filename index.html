@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TranslateX</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#0f172a;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  margin:0;
+}
+
+.box{
+  width:400px;
+  background:#1e293b;
+  padding:20px;
+  border-radius:10px;
+}
+
+textarea,select,button{
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+}
+
+button{
+  background:#38bdf8;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+#result{
+  margin-top:15px;
+  background:#0f172a;
+  padding:10px;
+  min-height:40px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>TranslateX</h2>
+
+<textarea id="text" placeholder="Enter text"></textarea>
+
+<select id="from">
+  <option value="English">English</option>
+  <option value="French">French</option>
+</select>
+
+<select id="to">
+  <option value="Arabic">Arabic</option>
+  <option value="English">English</option>
+</select>
+
+<button onclick="translateText()">Translate</button>
+
+<div id="result">Result...</div>
+
+</div>
+
+<script>
+
+async function translateText(){
+
+  const text = document.getElementById("text").value;
+  const from = document.getElementById("from").value;
+  const to = document.getElementById("to").value;
+
+  document.getElementById("result").innerText = "Loading...";
+
+  try{
+
+    const res = await fetch("https://YOUR-API.onrender.com/translate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text, from, to })
+    });
+
+    const data = await res.json();
+
+    document.getElementById("result").innerText = data.result;
+
+  }catch(err){
+    document.getElementById("result").innerText = "API error";
+  }
+}
+
+</script>
+
+</body>
+</html>
