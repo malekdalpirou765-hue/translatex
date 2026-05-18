@@ -2,101 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>TranslateX</title>
+<title>TranslateX Pro</title>
 
 <style>
 
 body{
-  
-  font-family: Arial;
-  text-align:center;
   margin:0;
-  padding:0;
-  min-height:100vh;
-
-  background: linear-gradient(135deg,#4facfe,#00f2fe,#7b2ff7);
-
-  background-size: 300% 300%;
-  animation: gradientMove 10s ease infinite;
-
+  font-family:Arial;
+  background: linear-gradient(135deg,#4facfe,#ffffff);
   display:flex;
   justify-content:center;
   align-items:center;
-}
-
-@keyframes gradientMove{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
+  height:100vh;
 }
 
 .container{
+  width:520px;
   background:white;
-  padding:40px;
-  border-radius:20px;
-  width:400px;
-
+  padding:25px;
+  border-radius:15px;
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
 h1{
-  margin-bottom:20px;
-  color:#333;
+  text-align:center;
 }
 
-input,select{
+textarea{
   width:100%;
-  padding:12px;
-  margin:8px 0;
-
+  height:140px;
+  padding:10px;
+  font-size:16px;
   border-radius:10px;
   border:1px solid #ccc;
+  resize:none;
+}
 
-  font-size:16px;
+select{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:10px;
 }
 
 button{
-  padding:12px 20px;
+  width:48%;
+  padding:10px;
   margin-top:10px;
   border:none;
-
   border-radius:10px;
-
+  cursor:pointer;
   background:#4facfe;
   color:white;
-
-  cursor:pointer;
-  font-size:16px;
-
-  transition:0.3s;
 }
 
 button:hover{
-  background:#008cff;
+  background:#007bff;
 }
 
 #result{
-  margin-top:20px;
-  font-size:22px;
-  color:#222;
+  margin-top:15px;
+  font-size:18px;
   min-height:40px;
+  color:green;
 }
 
 </style>
 
 </head>
+
 <body>
 
 <div class="container">
 
-<h1>🌍 TranslateX</h1>
+<h1>🌍 TranslateX Pro</h1>
 
-<input id="text"
-placeholder="Type text here">
+<textarea id="text" placeholder="Type here..."></textarea>
 
 <select id="fromLang">
-
+<option value="auto">Auto Detect</option>
 <option value="en">English</option>
 <option value="ar">Arabic</option>
 <option value="fr">French</option>
@@ -107,21 +91,34 @@ placeholder="Type text here">
 <option value="ru">Russian</option>
 <option value="tr">Turkish</option>
 <option value="nl">Dutch</option>
-<option value="hi">Hindi</option>
-<option value="zh-CN">Chinese</option>
-<option value="ja">Japanese</option>
-<option value="ko">Korean</option>
 <option value="pl">Polish</option>
 <option value="sv">Swedish</option>
-<option value="uk">Ukrainian</option>
+<option value="da">Danish</option>
+<option value="fi">Finnish</option>
+<option value="no">Norwegian</option>
+<option value="cs">Czech</option>
+<option value="hu">Hungarian</option>
+<option value="ro">Romanian</option>
+<option value="bg">Bulgarian</option>
 <option value="el">Greek</option>
+<option value="uk">Ukrainian</option>
+<option value="hi">Hindi</option>
+<option value="ur">Urdu</option>
+<option value="bn">Bengali</option>
+<option value="ta">Tamil</option>
+<option value="te">Telugu</option>
+<option value="ml">Malayalam</option>
+<option value="zh">Chinese</option>
+<option value="ja">Japanese</option>
+<option value="ko">Korean</option>
 <option value="th">Thai</option>
 <option value="vi">Vietnamese</option>
-
+<option value="id">Indonesian</option>
+<option value="fa">Persian</option>
+<option value="he">Hebrew</option>
 </select>
 
 <select id="toLang">
-
 <option value="ar">Arabic</option>
 <option value="en">English</option>
 <option value="fr">French</option>
@@ -132,26 +129,35 @@ placeholder="Type text here">
 <option value="ru">Russian</option>
 <option value="tr">Turkish</option>
 <option value="nl">Dutch</option>
-<option value="hi">Hindi</option>
-<option value="zh-CN">Chinese</option>
-<option value="ja">Japanese</option>
-<option value="ko">Korean</option>
 <option value="pl">Polish</option>
 <option value="sv">Swedish</option>
-<option value="uk">Ukrainian</option>
+<option value="da">Danish</option>
+<option value="fi">Finnish</option>
+<option value="no">Norwegian</option>
+<option value="cs">Czech</option>
+<option value="hu">Hungarian</option>
+<option value="ro">Romanian</option>
+<option value="bg">Bulgarian</option>
 <option value="el">Greek</option>
+<option value="uk">Ukrainian</option>
+<option value="hi">Hindi</option>
+<option value="ur">Urdu</option>
+<option value="bn">Bengali</option>
+<option value="ta">Tamil</option>
+<option value="te">Telugu</option>
+<option value="ml">Malayalam</option>
+<option value="zh">Chinese</option>
+<option value="ja">Japanese</option>
+<option value="ko">Korean</option>
 <option value="th">Thai</option>
 <option value="vi">Vietnamese</option>
-
+<option value="id">Indonesian</option>
+<option value="fa">Persian</option>
+<option value="he">Hebrew</option>
 </select>
 
-<button onclick="translateText()">
-Translate
-</button>
-
-<button onclick="speakText()">
-🔊 Speak
-</button>
+<button onclick="translateText()">Translate</button>
+<button onclick="speakText()">🔊 Speak</button>
 
 <p id="result"></p>
 
@@ -163,21 +169,12 @@ let lastTranslatedText = "";
 
 async function translateText(){
 
-  let text =
-  document.getElementById("text").value;
-
-  let from =
-  document.getElementById("fromLang").value;
-
-  let to =
-  document.getElementById("toLang").value;
+  let text = document.getElementById("text").value;
+  let from = document.getElementById("fromLang").value;
+  let to = document.getElementById("toLang").value;
 
   if(!text){
-
-    document.getElementById("result")
-    .innerText =
-    "Please type something";
-
+    document.getElementById("result").innerText = "";
     return;
   }
 
@@ -187,24 +184,17 @@ async function translateText(){
   try{
 
     let response = await fetch(url);
-
     let data = await response.json();
 
-    lastTranslatedText =
-    data.responseData.translatedText;
+    lastTranslatedText = data.responseData.translatedText;
 
-    document.getElementById("result")
-    .innerText =
+    document.getElementById("result").innerText =
     lastTranslatedText;
 
-  }catch(error){
-
-    document.getElementById("result")
-    .innerText =
-    "Translation failed";
-
+  }catch(e){
+    document.getElementById("result").innerText =
+    "Translation error";
   }
-
 }
 
 function speakText(){
@@ -214,41 +204,22 @@ function speakText(){
   window.speechSynthesis.cancel();
 
   let speech =
-  new SpeechSynthesisUtterance(
-    lastTranslatedText
-  );
-
-  let lang =
-  document.getElementById("toLang").value;
-
-  speech.lang = lang;
+  new SpeechSynthesisUtterance(lastTranslatedText);
 
   speech.rate = 1;
-
   speech.pitch = 1;
+  speech.lang = "en-US";
 
-  let voices =
-  window.speechSynthesis.getVoices();
+  let voices = window.speechSynthesis.getVoices();
 
   if(voices.length > 0){
-
-    let matchingVoice =
-    voices.find(
-      voice => voice.lang.includes(lang)
-    );
-
-    if(matchingVoice){
-      speech.voice = matchingVoice;
-    }
-
+    speech.voice = voices[0];
   }
 
   window.speechSynthesis.speak(speech);
-
 }
 
-window.speechSynthesis.onvoiceschanged =
-() => {
+window.speechSynthesis.onvoiceschanged = () => {
   window.speechSynthesis.getVoices();
 };
 
