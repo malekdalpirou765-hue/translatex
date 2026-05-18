@@ -1,45 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>TranslateX</title>
+  <title>Translator</title>
 </head>
 <body>
 
-<h2>TranslateX</h2>
+  <h1>Translator</h1>
 
-<textarea id="text"></textarea>
+  <input id="text" placeholder="Enter text">
+  <input id="lang" placeholder="Target language (ar/fr/es)">
+  <button onclick="translateText()">Translate</button>
 
-<select id="from">
-  <option value="English">English</option>
-  <option value="French">French</option>
-</select>
+  <p id="result"></p>
 
-<select id="to">
-  <option value="Arabic">Arabic</option>
-  <option value="English">English</option>
-</select>
+  <script>
+    async function translateText() {
+      const text = document.getElementById("text").value;
+      const to = document.getElementById("lang").value;
 
-<button onclick="translateText()">Translate</button>
+      const res = await fetch("/translate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text, to })
+      });
 
-<p id="result"></p>
+      const data = await res.json();
 
-<script>
-async function translateText(){
-  const text = document.getElementById("text").value;
-  const from = document.getElementById("from").value;
-  const to = document.getElementById("to").value;
-
-  const res = await fetch("/translate", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({text, from, to})
-  });
-
-  const data = await res.json();
-  document.getElementById("result").innerText = data.result;
-}
-</script>
+      document.getElementById("result").innerText = data.result;
+    }
+  </script>
 
 </body>
 </html>
