@@ -86,52 +86,22 @@ button:hover{
 
 <script>
 
-// 🤖 إرسال طلب للسيرفر
-async function translateText(){
+
+async function translate(){
 
   let text = document.getElementById("text").value;
   let from = document.getElementById("from").value;
   let to = document.getElementById("to").value;
 
-  document.getElementById("result").innerText = "Translating...";
+  let res = await fetch("/translate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text, from, to })
+  });
 
-  try{
+  let data = await res.json();
 
-    let res = await fetch("/translate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        text: text,
-        from: from,
-        to: to
-      })
-    });
-
-    let data = await res.json();
-
-    document.getElementById("result").innerText = data.result;
-
-  }catch(err){
-    document.getElementById("result").innerText = "Error connecting to server";
-  }
+  document.getElementById("result").innerText = data.result;
 }
-
-// 🔊 صوت النتيجة
-function speak(){
-
-  let text = document.getElementById("result").innerText;
-
-  if(!text || text === "Result will appear here...") return;
-
-  let speech = new SpeechSynthesisUtterance(text);
-  speech.rate = 1;
-
-  speechSynthesis.speak(speech);
-}
-
-</script>
-
-</body>
-</html>
