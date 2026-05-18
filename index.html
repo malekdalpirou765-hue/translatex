@@ -91,33 +91,29 @@
         return;
       }
 
-      let url = `https://api.mymemory.translated.net/get?q=${text}&langpair=${from}|${to}`;
-
+      let url = let url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
       let response = await fetch(url);
-      let data = await response.json();
-
+      let data = await responce
       lastTranslatedText = data.responseData.translatedText;
 
-      document.getElementById("result").innerText = lastTranslatedText;
-    }
+     document.getElementById("result").innerText = lastTranslatedTex }
 
     function speakText() {
   if (!lastTranslatedText) return;
 
   let speech = new SpeechSynthesisUtterance(lastTranslatedText);
 
-  // اختيار صوت مناسب من الجهاز
+  
   let voices = window.speechSynthesis.getVoices();
 
   if (voices.length > 0) {
-    speech.voice = voices[0]; // أول صوت متاح
-  }
+    speech.voice = voices[0]; 
 
   speech.lang = "en-US";
   speech.rate = 1;
   speech.pitch = 1;
 
-  window.speechSynthesis.cancel(); // إيقاف أي صوت سابق
+  window.speechSynthesis.cancel(); 
   window.speechSynthesis.speak(speech);
     }
 
