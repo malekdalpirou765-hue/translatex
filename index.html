@@ -1,123 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>TranslateX</title>
-  <style>
-    body {
-      font-family: Arial;
-      text-align: center;
-      margin-top: 50px;
-    }
-    input, select {
-      width: 300px;
-      padding: 10px;
-      margin: 5px;
-    }
-    button {
-      padding: 10px 20px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 20px;
-      color: green;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>TranslateX</title>
+
+<style>
+
+body{
+  font-family: Arial;
+  text-align:center;
+  margin:0;
+  padding:0;
+  height:100vh;
+
+  background: linear-gradient(135deg,#4facfe,#00f2fe);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.container{
+  background:white;
+  padding:40px;
+  border-radius:20px;
+  width:400px;
+
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+  margin-bottom:20px;
+  color:#333;
+}
+
+input,select{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+
+  border-radius:10px;
+  border:1px solid #ccc;
+
+  font-size:16px;
+}
+
+button{
+  padding:12px 20px;
+  margin-top:10px;
+  border:none;
+
+  border-radius:10px;
+
+  background:#4facfe;
+  color:white;
+
+  cursor:pointer;
+  font-size:16px;
+
+  transition:0.3s;
+}
+
+button:hover{
+  background:#008cff;
+}
+
+#result{
+  margin-top:20px;
+  font-size:22px;
+  color:#222;
+  min-height:40px;
+}
+
+</style>
+
 </head>
 <body>
 
-  <h1>translatex</h1>
+<div class="container">
 
-  <input id="text" placeholder="Type text here">
+<h1>🌍 TranslateX</h1>
 
-  <br>
+<input id="text"
+placeholder="Type text here">
 
-  <select id="fromLang">
-  <option value="en">English</option>
-  <option value="ar">Arabic</option>
-  <option value="fr">French</option>
-  <option value="es">Spanish</option>
-  <option value="de">German</option>
-  <option value="it">Italian</option>
-  <option value="pt">Portuguese</option>
-  <option value="ru">Russian</option>
-  <option value="tr">Turkish</option>
-  <option value="nl">Dutch</option>
-  <option value="hi">Hindi</option>
-  <option value="zh">Chinese</option>
-  <option value="ja">Japanese</option>
-  <option value="ko">Korean</option>
+<select id="fromLang">
+
+<option value="en">English</option>
+<option value="ar">Arabic</option>
+<option value="fr">French</option>
+<option value="es">Spanish</option>
+<option value="de">German</option>
+<option value="it">Italian</option>
+<option value="pt">Portuguese</option>
+<option value="ru">Russian</option>
+<option value="tr">Turkish</option>
+<option value="nl">Dutch</option>
+<option value="hi">Hindi</option>
+<option value="zh-CN">Chinese</option>
+<option value="ja">Japanese</option>
+<option value="ko">Korean</option>
+<option value="pl">Polish</option>
+<option value="sv">Swedish</option>
+<option value="uk">Ukrainian</option>
+<option value="el">Greek</option>
+<option value="th">Thai</option>
+<option value="vi">Vietnamese</option>
+
 </select>
 
 <select id="toLang">
-  <option value="en">English</option>
-  <option value="ar">Arabic</option>
-  <option value="fr">French</option>
-  <option value="es">Spanish</option>
-  <option value="de">German</option>
-  <option value="it">Italian</option>
-  <option value="pt">Portuguese</option>
-  <option value="ru">Russian</option>
-  <option value="tr">Turkish</option>
-  <option value="nl">Dutch</option>
-  <option value="hi">Hindi</option>
-  <option value="zh">Chinese</option>
-  <option value="ja">Japanese</option>
-  <option value="ko">Korean</option>
+
+<option value="ar">Arabic</option>
+<option value="en">English</option>
+<option value="fr">French</option>
+<option value="es">Spanish</option>
+<option value="de">German</option>
+<option value="it">Italian</option>
+<option value="pt">Portuguese</option>
+<option value="ru">Russian</option>
+<option value="tr">Turkish</option>
+<option value="nl">Dutch</option>
+<option value="hi">Hindi</option>
+<option value="zh-CN">Chinese</option>
+<option value="ja">Japanese</option>
+<option value="ko">Korean</option>
+<option value="pl">Polish</option>
+<option value="sv">Swedish</option>
+<option value="uk">Ukrainian</option>
+<option value="el">Greek</option>
+<option value="th">Thai</option>
+<option value="vi">Vietnamese</option>
+
 </select>
-  
 
-  
+<button onclick="translateText()">
+Translate
+</button>
 
-  <br>
+<button onclick="speakText()">
+🔊 Speak
+</button>
 
-  <button onclick="translateText()">Translate</button>
-  <button onclick="speakText()">🔊 Speak</button>
+<p id="result"></p>
 
-  <p id="result"></p>
+</div>
 
-  <script>
-    let lastTranslatedText = "";
+<script>
 
-    async function translateText() {
-      let text = document.getElementById("text").value;
-      let from = document.getElementById("fromLang").value;
-      let to = document.getElementById("toLang").value;
+let lastTranslatedText = "";
 
-      if (!text) {
-        document.getElementById("result").innerText = "Please type something";
-        return;
-      }
+async function translateText(){
 
-      let url = let url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
-      let response = await fetch(url);
-      let data = await responce
-      lastTranslatedText = data.responseData.translatedText;
+  let text =
+  document.getElementById("text").value;
 
-     document.getElementById("result").innerText = lastTranslatedTex }
+  let from =
+  document.getElementById("fromLang").value;
 
-    function speakText() {
-  if (!lastTranslatedText) return;
+  let to =
+  document.getElementById("toLang").value;
 
-  let speech = new SpeechSynthesisUtterance(lastTranslatedText);
+  if(!text){
 
-  
-  let voices = window.speechSynthesis.getVoices();
+    document.getElementById("result")
+    .innerText =
+    "Please type something";
 
-  if (voices.length > 0) {
-    speech.voice = voices[0]; 
+    return;
+  }
 
-  speech.lang = "en-US";
+  let url =
+  `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
+
+  try{
+
+    let response = await fetch(url);
+
+    let data = await response.json();
+
+    lastTranslatedText =
+    data.responseData.translatedText;
+
+    document.getElementById("result")
+    .innerText =
+    lastTranslatedText;
+
+  }catch(error){
+
+    document.getElementById("result")
+    .innerText =
+    "Translation failed";
+
+  }
+
+}
+
+function speakText(){
+
+  if(!lastTranslatedText) return;
+
+  window.speechSynthesis.cancel();
+
+  let speech =
+  new SpeechSynthesisUtterance(
+    lastTranslatedText
+  );
+
+  let lang =
+  document.getElementById("toLang").value;
+
+  speech.lang = lang;
+
   speech.rate = 1;
+
   speech.pitch = 1;
 
-  window.speechSynthesis.cancel(); 
-  window.speechSynthesis.speak(speech);
+  let voices =
+  window.speechSynthesis.getVoices();
+
+  if(voices.length > 0){
+
+    let matchingVoice =
+    voices.find(
+      voice => voice.lang.includes(lang)
+    );
+
+    if(matchingVoice){
+      speech.voice = matchingVoice;
     }
 
-    window.speechSynthesis.onvoiceschanged = () => {
+  }
+
+  window.speechSynthesis.speak(speech);
+
+}
+
+window.speechSynthesis.onvoiceschanged =
+() => {
   window.speechSynthesis.getVoices();
 };
-    .
+
+</script>
+
+</body>
+</html>
