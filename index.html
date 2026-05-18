@@ -174,8 +174,6 @@ select{
 
 <script>
 
-let lastTranslatedText = "";
-
 async function translateText(){
 
   let text = document.getElementById("text").value;
@@ -187,6 +185,12 @@ async function translateText(){
     return;
   }
 
+  text = text.trim().replace(/\s+/g,' ');
+
+  if(text.length > 500){
+    text = text.substring(0,500);
+  }
+
   let url =
   `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
 
@@ -195,34 +199,38 @@ async function translateText(){
     let response = await fetch(url);
     let data = await response.json();
 
-    lastTranslatedText = data.responseData.translatedText;
+    let translated = data.responseData.translatedText;
+
+    translated =
+    translated.charAt(0).toUpperCase() + translated.slice(1);
 
     document.getElementById("result").innerText =
-    lastTranslatedText;
+    translated;
+
+    lastTranslatedText = translated;
 
   }catch(e){
-    document.getElementById("result").innerText =
-    "Translation error";
-  }
-}
 
-function speakText(){
+    document.getElementById("result").innerText =
+    "Error";
+
+
+    function speakText(){
 
   if(!lastTranslatedText) return;
 
   window.speechSynthesis.cancel();
 
-  let speech =
-  new SpeechSynthesisUtterance(lastTranslatedText);
+  let speech = new SpeechSynthesisUtterance(lastTranslatedText);
+
+  let lang = document.getElementById("toLang").value;
+
+  speech.lang = lang;
 
   speech.rate = 1;
   speech.pitch = 1;
-  speech.lang = "en-US";
 
   window.speechSynthesis.speak(speech);
+    }
+  }
 }
-
-</script>
-
-</body>
-</html>
