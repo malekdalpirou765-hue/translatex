@@ -24,6 +24,28 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
+/* 🔥 Top buttons */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.topbar button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#4facfe;
+  color:white;
+}
+
+.topbar button:hover{
+  background:#007bff;
+}
+
 h1{
   text-align:center;
 }
@@ -45,21 +67,6 @@ select{
   border-radius:10px;
 }
 
-button{
-  width:48%;
-  padding:10px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  background:#4facfe;
-  color:white;
-}
-
-button:hover{
-  background:#007bff;
-}
-
 #result{
   margin-top:15px;
   font-size:18px;
@@ -77,10 +84,15 @@ button:hover{
 
 <h1>🌍 TranslateX Pro</h1>
 
+<!-- 🔥 Top buttons -->
+<div class="topbar">
+  <button onclick="translateText()">Translate</button>
+  <button onclick="speakText()">🔊 Speak</button>
+</div>
+
 <textarea id="text" placeholder="Type here..."></textarea>
 
 <select id="fromLang">
-<option value="auto">Auto Detect</option>
 <option value="en">English</option>
 <option value="ar">Arabic</option>
 <option value="fr">French</option>
@@ -156,9 +168,6 @@ button:hover{
 <option value="he">Hebrew</option>
 </select>
 
-<button onclick="translateText()">Translate</button>
-<button onclick="speakText()">🔊 Speak</button>
-
 <p id="result"></p>
 
 </div>
@@ -210,18 +219,8 @@ function speakText(){
   speech.pitch = 1;
   speech.lang = "en-US";
 
-  let voices = window.speechSynthesis.getVoices();
-
-  if(voices.length > 0){
-    speech.voice = voices[0];
-  }
-
   window.speechSynthesis.speak(speech);
 }
-
-window.speechSynthesis.onvoiceschanged = () => {
-  window.speechSynthesis.getVoices();
-};
 
 </script>
 
