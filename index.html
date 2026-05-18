@@ -12,23 +12,17 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background: linear-gradient(135deg,#4facfe,#00f2fe,#ffffff);
+  background: linear-gradient(120deg,#4facfe,#00f2fe);
 }
 
 .box{
-  width:520px;
+  width:500px;
   background:white;
   padding:20px;
   border-radius:15px;
 }
 
-textarea{
-  width:100%;
-  height:130px;
-  padding:10px;
-}
-
-select,button{
+textarea,select,button{
   width:100%;
   padding:10px;
   margin-top:10px;
@@ -38,39 +32,72 @@ button{
   background:#4facfe;
   color:white;
   border:none;
-  cursor:pointer;
 }
 
 #result{
-  margin-top:15px;
+  margin-top:10px;
   font-size:18px;
   color:green;
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="box">
 
-<h2>🌍 TranslateX AI</h2>
+<h2>🌍 AI Translator</h2>
 
-<textarea id="text" placeholder="Type text..."></textarea>
+<textarea id="text" placeholder="Write text..."></textarea>
 
-<select id="lang">
-  <option value="English">English</option>
-  <option value="Arabic">Arabic</option>
-  <option value="French">French</option>
-  <option value="Spanish">Spanish</option>
-  <option value="German">German</option>
-  <option value="Italian">Italian</option>
-  <option value="Portuguese">Portuguese</option>
-  <option value="Chinese">Chinese</option>
-  <option value="Japanese">Japanese</option>
+<!-- FROM -->
+<select id="fromLang">
+  <option>Auto Detect</option>
+  <option>English</option>
+  <option>Arabic</option>
+  <option>French</option>
+  <option>Spanish</option>
+  <option>German</option>
+  <option>Italian</option>
+  <option>Portuguese</option>
+  <option>Turkish</option>
+  <option>Russian</option>
+  <option>Chinese</option>
+  <option>Japanese</option>
+  <option>Korean</option>
+  <option>Hindi</option>
+  <option>Urdu</option>
+  <option>Greek</option>
+  <option>Hebrew</option>
+  <option>Persian</option>
+  <option>Swedish</option>
+  <option>Norwegian</option>
 </select>
 
-<button onclick="translateText()">Translate</button>
+<!-- TO -->
+<select id="toLang">
+  <option>English</option>
+  <option>Arabic</option>
+  <option>French</option>
+  <option>Spanish</option>
+  <option>German</option>
+  <option>Italian</option>
+  <option>Portuguese</option>
+  <option>Turkish</option>
+  <option>Russian</option>
+  <option>Chinese</option>
+  <option>Japanese</option>
+  <option>Korean</option>
+  <option>Hindi</option>
+  <option>Urdu</option>
+  <option>Greek</option>
+  <option>Hebrew</option>
+  <option>Persian</option>
+  <option>Swedish</option>
+  <option>Norwegian</option>
+</select>
+
+<button onclick="translate()">Translate 🚀</button>
 
 <div id="result"></div>
 
@@ -78,30 +105,25 @@ button{
 
 <script>
 
-async function translateText(){
+async function translate(){
 
   let text = document.getElementById("text").value;
-  let lang = document.getElementById("lang").value;
+  let from = document.getElementById("fromLang").value;
+  let to = document.getElementById("toLang").value;
 
-  document.getElementById("result").innerText = "Loading...";
+  document.getElementById("result").innerText = "Translating... 🤖";
 
-  try{
+  let res = await fetch("/translate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text, from, to })
+  });
 
-    let res = await fetch("/translate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ text, lang })
-    });
+  let data = await res.json();
 
-    let data = await res.json();
-
-    document.getElementById("result").innerText = data.result;
-
-  }catch(e){
-    document.getElementById("result").innerText = "Error";
-  }
+  document.getElementById("result").innerText = data.result;
 }
 
 </script>
