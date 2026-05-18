@@ -23,7 +23,7 @@ app.post("/translate", async (req, res) => {
         messages: [
           {
             role: "system",
-            content: "You are a professional translator. Translate accurately."
+            content: "You are a professional translator."
           },
           {
             role: "user",
@@ -44,10 +44,11 @@ app.post("/translate", async (req, res) => {
   }
 });
 
-// 🟢 Home
+// 🟢 home
 app.get("/", (req, res) => {
   res.send("TranslateX AI is running 🚀");
 });
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => console.log("Server running"));
