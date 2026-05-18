@@ -3,10 +3,19 @@ const path = require("path");
 
 const app = express();
 
+app.use(express.json());
+
+// 👇 هذا أهم سطر لعرض الموقع
 app.use(express.static(path.join(__dirname, "public")));
 
+// API
 app.post("/translate", (req, res) => {
-  res.json({ result: "test" });
+  res.json({ result: "Server works" });
+});
+
+//
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 const PORT = process.env.PORT || 3000;
