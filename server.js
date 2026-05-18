@@ -5,15 +5,19 @@ const app = express();
 
 app.use(express.json());
 
-// 👇 هذا أهم سطر لعرض الموقع
+// 👇 هذا يربط index.html بالسيرفر
 app.use(express.static(path.join(__dirname, "public")));
 
-// API
+// 🤖 API الترجمة
 app.post("/translate", (req, res) => {
-  res.json({ result: "Server works" });
+  const { text, from, to } = req.body;
+
+  res.json({
+    result: `Translated (${from} → ${to}): ${text}`
+  });
 });
 
-//
+// 👇 مهم جداً (يحل مشكلة Cannot GET /)
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
