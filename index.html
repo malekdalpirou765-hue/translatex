@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>TranslateX</title>
@@ -7,38 +7,40 @@
 <style>
 body{
   font-family: Arial;
-  background: linear-gradient(120deg,#4facfe,#00f2fe);
-  height:100vh;
+  background:#0f172a;
+  color:white;
   display:flex;
   justify-content:center;
   align-items:center;
+  height:100vh;
   margin:0;
 }
 
 .box{
   width:400px;
-  background:white;
+  background:#1e293b;
   padding:20px;
-  border-radius:12px;
+  border-radius:10px;
 }
 
 textarea,select,button{
   width:100%;
   margin-top:10px;
   padding:10px;
+  border:none;
+  border-radius:5px;
 }
 
 button{
-  background:#1976d2;
-  color:white;
-  border:none;
+  background:#38bdf8;
   cursor:pointer;
+  font-weight:bold;
 }
 
 #result{
-  margin-top:10px;
+  margin-top:15px;
+  background:#0f172a;
   padding:10px;
-  background:#f2f2f2;
   min-height:40px;
 }
 </style>
@@ -54,18 +56,18 @@ button{
 <textarea id="text" placeholder="Write text..."></textarea>
 
 <select id="from">
-  <option>English</option>
-  <option>Arabic</option>
+  <option value="English">English</option>
+  <option value="Arabic">Arabic</option>
 </select>
 
 <select id="to">
-  <option>Arabic</option>
-  <option>English</option>
+  <option value="Arabic">Arabic</option>
+  <option value="English">English</option>
 </select>
 
 <button onclick="translateText()">Translate</button>
 
-<div id="result">Result...</div>
+<div id="result">Result will appear here...</div>
 
 </div>
 
@@ -94,7 +96,7 @@ async function translateText(){
     document.getElementById("result").innerText = data.result;
 
   }catch(err){
-    document.getElementById("result").innerText = "Error";
+    document.getElementById("result").innerText = "Error connecting to server";
   }
 }
 
@@ -102,4 +104,3 @@ async function translateText(){
 
 </body>
 </html>
-
