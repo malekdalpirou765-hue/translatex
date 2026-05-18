@@ -4,13 +4,10 @@ const path = require("path");
 const app = express();
 
 app.use(express.json());
-
-// serve frontend
 app.use(express.static(path.join(__dirname, "public")));
 
-// simple translate API (temporary logic)
+// simple translate API (mock)
 app.post("/translate", (req, res) => {
-
   const { text, from, to } = req.body;
 
   if (!text) {
@@ -22,7 +19,7 @@ app.post("/translate", (req, res) => {
   });
 });
 
-// homepage route
+// home route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
