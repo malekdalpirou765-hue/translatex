@@ -1,5 +1,3 @@
-
-HTML
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,3 +16,104 @@ body{
     justify-content:center;
     margin-top:50px;
     color:white;
+}
+
+.container{
+    width:400px;
+    background:rgba(255,255,255,0.15);
+    padding:20px;
+    border-radius:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#ff1493;
+    color:white;
+}
+
+.note{
+    background:white;
+    color:black;
+    padding:10px;
+    margin-top:10px;
+    border-radius:10px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.delete{
+    background:red;
+    color:white;
+    border:none;
+    padding:5px;
+    border-radius:5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>My Notes 💗</h1>
+
+<input id="noteInput" placeholder="Write note">
+
+<button onclick="addNote()">Add</button>
+
+<div id="notes"></div>
+
+</div>
+
+<script>
+
+let notes = [];
+
+function addNote(){
+    let input = document.getElementById("noteInput");
+    let text = input.value;
+
+    if(text === "") return;
+
+    notes.push(text);
+
+    showNotes();
+
+    input.value = "";
+}
+
+function showNotes(){
+
+    let div = document.getElementById("notes");
+    div.innerHTML = "";
+
+    notes.forEach((n,i)=>{
+        div.innerHTML += `
+        <div class="note">
+            <span>${n}</span>
+            <button class="delete" onclick="deleteNote(${i})">X</button>
+        </div>`;
+    });
+}
+
+function deleteNote(i){
+    notes.splice(i,1);
+    showNotes();
+}
+
+</script>
+
+</body>
+</html>
