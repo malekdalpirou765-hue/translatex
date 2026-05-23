@@ -64,4 +64,54 @@ justify-content:space-between;
 delete{
 background:red;
 color: white;
-border
+border:none;
+padding:5px;
+border-radius:5px;
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="noteInput" placeholder="write
+note">
+
+<input id=value;
+
+if(text ==="") retun ;
+note.push(text)
+
+shownotes();
+
+input.value="";
+
+}
+
+function shownNotes(){
+
+let div=
+document. getElementById("notes");
+  div.innerHTML = "";
+
+notes.forEach((n,i)=>{
+   div.innerHTML +=
+   <div class="note">
+        <span>${n}</span>
+        <button class=delete"
+onclick="deleteNote(${i}">X</button>
+         </div>';
+    });
+}
+
+function deleteNote(i){
+     notes.splice(i,1);
+     showNotes();
+}
+
+</script>
+
+</body>
+</html>
